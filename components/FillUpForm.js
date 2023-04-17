@@ -67,22 +67,22 @@ export default function FillUpForm() {
       <br />
       <label>
         Blood Group:
-        <input type="text" name="bloodGroup" />
+        <input type="text" value={bloodGroup} onChange={(e) => setBloodGroup(e.target.value)}/>
       </label>
       <br />
       <label>
         Citizenship Number:
-        <input type="text" name="citizenshipNumber" />
+        <input type="text" value={citizenshipNumber} onChange={(e) => setCitizenshipNumber(e.target.value)} />
       </label>
       <br />
       <label>
         PAN Number:
-        <input type="text" name="panNumber" />
+        <input type="text" value={panNumber} onChange={(e) => setPANNumber(e.target.value)} />
       </label>
       <br />
       <label>
         Location:
-        <input type="text" name="location" />
+        <input type="text" value={location} onChange={(e)=>setLocation(e.target.value)}/>
       </label>
       <br />
       <button type="submit">Submit</button>
