@@ -86,6 +86,7 @@ export default function FillUpForm() {
       </label>
       <br />
       <button type="submit">Submit</button>
+      <hr />
     </form>
   );
 }
