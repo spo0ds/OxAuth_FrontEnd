@@ -10,7 +10,7 @@ export default function Header() {
                     <a className="mr-4 p-6">Home</a>
                 </Link>
 
-                <Link href="/">
+                <Link href="./fillUpForm">
                     <a className="mr-4 p-6">KYC</a>
                 </Link>
 

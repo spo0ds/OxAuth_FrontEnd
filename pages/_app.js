@@ -1,6 +1,7 @@
 import "../styles/globals.css"
 import { MoralisProvider } from "react-moralis"
 import Header from "../components/Header"
+import FillUpForm from "../components/FillUpForm"
 import Head from "next/head"
 import { NotificationProvider } from "web3uikit"
 
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
             <MoralisProvider initializeOnMount={false}>
                 <NotificationProvider>
                     <Header />
+                    <FillUpForm />
                     <Component {...pageProps} />
                 </NotificationProvider>
             </MoralisProvider>
