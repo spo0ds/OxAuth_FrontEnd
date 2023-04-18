@@ -10,12 +10,12 @@ export default function Header() {
                     <a className="mr-4 p-6">Home</a>
                 </Link>
 
-                <Link href="./fillUpForm">
+                <Link href="/">
                     <a className="mr-4 p-6">KYC</a>
                 </Link>
 
-                <Link href="/">
-                    <a className="mr-4 p-6">Mint</a>
+                <Link href="/nft">
+                    <a className="mr-4 p-6">NFT</a>
                 </Link>
 
                 <Link href="/">
