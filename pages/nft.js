@@ -66,7 +66,6 @@ export default function nft() {
 
         setMinting(false)
     }
-
     async function handleCheckNFT() {
         setError(null)
 
@@ -93,7 +92,7 @@ export default function nft() {
         const walletAddress = await signer.getAddress()
 
         // Check if the user has an NFT
-        let tokenCounter = await contract.getTokenCounter()
+        const tokenCounter = await contract.getTokenCounter()
         if (!tokenCounter) {
             setError("Unable to retrieve token counter")
             return
@@ -101,16 +100,21 @@ export default function nft() {
 
         let tokenId = null
         for (let i = 0; i < parseInt(tokenCounter); i++) {
+            try {
+                // Check if the NFT exists using the token ID
+                await contract.ownerOf(i)
+            } catch (e) {
+                // If the token ID is invalid, skip to the next iteration
+                continue
+            }
             const owner = await contract.ownerOf(i)
             if (owner === walletAddress) {
                 tokenId = i
                 break
             }
         }
-
-        setTokenId(tokenId)
-
         if (tokenId !== null) {
+            setTokenId(tokenId)
             setHasNFT(true)
 
             // Get the token URI of the user's NFT
@@ -202,7 +206,7 @@ export default function nft() {
             <button onClick={handleCheckNFT}>Check for NFT</button>
             {error && <p>{error}</p>}
             {hasNFT && <p>You have an NFT!</p>}
-            {tokenId && <p>NFT ID: {tokenId.toNumber()}</p>}
+            {tokenId && <p>NFT ID: {tokenId}</p>}
             {tokenURI && <img src={tokenURI} alt="NFT" />}
 
             {/* Burn NFT */}
