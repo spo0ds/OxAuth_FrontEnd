@@ -17,12 +17,12 @@ export default function Header() {
                 <Link href="/nft">
                     <a className="mr-4 p-6">NFT</a>
                 </Link>
-
-                <Link href="/">
+                
+                <Link href="/RequestData">
                     <a className="mr-4 p-6">Request</a>
                 </Link>
 
-                <Link href="/">
+                <Link href="/ApproveData">
                     <a className="mr-4 p-6">Approve</a>
                 </Link>
                 <ConnectButton moralisAuth={false} />
