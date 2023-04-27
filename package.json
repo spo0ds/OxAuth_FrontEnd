@@ -11,6 +11,7 @@
     "moralis:cloud": "moralis-admin-cli watch-cloud-folder --moralisSubdomain gscy6u59g2ht.usemoralis.com --autoSave 1 --moralisCloudfolder ./cloudFunctions"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "global": "^4.4.0",
     "moralis": "^2.5.7",
     "moralis-admin-cli": "^2.1.16",

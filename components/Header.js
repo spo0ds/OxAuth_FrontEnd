@@ -10,7 +10,7 @@ export default function Header() {
                     <a className="mr-4 p-6">Home</a>
                 </Link>
 
-                <Link href="/">
+                <Link href="/Kyc">
                     <a className="mr-4 p-6">KYC</a>
                 </Link>
 
@@ -24,6 +24,12 @@ export default function Header() {
 
                 <Link href="/ApproveData">
                     <a className="mr-4 p-6">Approve</a>
+                </Link>
+                <Link href="/ApproveCondition">
+                    <a className="mr-4 p-6">Approve Condition</a>
+                </Link>
+                <Link href="/DecryptData">
+                    <a className="mr-4 p-6">Decrypt Data</a>
                 </Link>
                 <ConnectButton moralisAuth={false} />
             </div>

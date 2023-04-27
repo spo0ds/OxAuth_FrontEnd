@@ -26,21 +26,25 @@ export default function ApproveData() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                DataRequester Address:
-                <input type="text" value={dataRequester} onChange={(e) => setDataRequester(e.target.value)} />
-            </label>
-            <br />
-            <hr />
-            <label>
-                KYC Field:
-                <input type="text" value={kycField} onChange={(e) => setKycField(e.target.value)} />
-            </label>
-            <br />
-            <hr />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button type="submit">Approve KYC</button>
-        </form>
+        <form class="w-full max-w-sm" onSubmit={handleSubmit}>
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+            DataRequester Address:
+          </label>
+          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={dataRequester} onChange={(e) => setDataRequester(e.target.value)} />
+        </div>
+        <hr class="mb-4" />
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+            KYC Field:
+          </label>
+          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={kycField} onChange={(e) => setKycField(e.target.value)} />
+        </div>
+        <hr class="mb-4" />
+        {error && <p class="text-red-500">{error}</p>}
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+          Approve KYC
+        </button>
+      </form> 
     );
 }
