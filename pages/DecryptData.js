@@ -85,48 +85,6 @@ export default function DecryptData() {
             <div>{decryptedData}</div>
             <hr />
             <hr />
-            <div>
-                <h2 class="py-5 text-4xl font-bold dark:text-yellow">Storing data </h2>
-                <form onSubmit={handleSubmit}>
-                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
-                        Data requester:
-                        <input
-                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            type="text"
-                            value={dataRequester}
-                            onChange={(e) => setDataRequester(e.target.value)}
-                        />
-                    </label>
-                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
-                        KYC field:
-                        <input
-                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            type="text"
-                            value={kycField}
-                            onChange={(e) => setkycField(e.target.value)}
-                        />
-                    </label>
-                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
-                        Data:
-                        <input
-                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name"
-                            type="text"
-                            value={data1}
-                            onChange={(e) => setData1(e.target.value)}
-                        />
-                    </label>
-                    <button
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
-                </form>
-                <p>{status}</p>
-            </div>
         </div>
     )
 }
