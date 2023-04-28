@@ -4,11 +4,13 @@ import { aes } from '../utils/aes';
 
 export default function DecryptData(){
     const [data, setData] = useState('');
-    const [decryptedData, setDecryptData] = useState('');
+    const [kycField, setkycField] = useState('');
     const [dataProvider, setDataProvider] = useState('');
+    const [data1, setData1] = useState('');
     const [error, setError] = useState(null);
     const [dataRequester, setDataRequester] = useState('');
     const [status, setStatus] = useState('');
+    const [decryptedData, setDecryptData] = useState('');
 
     const handleDecrypt = async(event) => {
         event.preventDefault();
@@ -35,7 +37,7 @@ export default function DecryptData(){
 
         try{
             const contract = await getContract();
-            const tx = await contract.storeRsaEncryptedinRetrievable(dataRequester, data, decryptedData);
+            const tx = await contract.storeRsaEncryptedinRetrievable(dataRequester, kycField, data1);
             // wait for the transaction to be confirmed and update the status
 
             const receipt = await tx.wait();
@@ -76,11 +78,11 @@ export default function DecryptData(){
         </label>
         <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
           KYC field:
-          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" />
+          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={kycField} onChange={(e) => setkycField(e.target.value)}/>
         </label>
         <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
           Data:
-          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" />
+          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={data1} onChange={(e) => setData1(e.target.value)} />
         </label>
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Submit</button>
       </form>
