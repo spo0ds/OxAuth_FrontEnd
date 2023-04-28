@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { getContract } from './contract';
+import { aes } from '../utils/aes';
 
 export default function DecryptData(){
     const [data, setData] = useState('');
@@ -13,12 +14,13 @@ export default function DecryptData(){
 
         try{
             const contract = await getContract();
-            const decryptedData = await contract.decryptMyData(
+            const decryptedData = aes.decryptMessage(await contract.decryptMyData(
+
                 dataProvider,
                 data,
                 {
                     gasLimit: 300000
-                });
+                }), "hello");
             setDecryptData(decryptedData);
         } catch (err){
             setError(err.message);
