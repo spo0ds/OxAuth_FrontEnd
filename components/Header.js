@@ -21,6 +21,10 @@ export default function Header() {
                 <Link href="/RequestData">
                     <a className="mr-4 p-6">Request</a>
                 </Link>
+                 <Link href="/DisplayData">
+                    <a className="mr-4 p-6">Display Data</a>
+                </Link>
+
 
                 <Link href="/ApproveData">
                     <a className="mr-4 p-6">Approve</a>
