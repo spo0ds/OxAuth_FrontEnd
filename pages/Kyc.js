@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { getContract } from './contract';
-import { aes } from '../utils/aes';
+//import { aes } from '../utils/aes';
 export default function FillUpForm() {
   const [name, setName] = useState('');
   const [fatherName, setFatherName] = useState('');
@@ -12,26 +12,33 @@ export default function FillUpForm() {
   const [citizenshipNumber, setCitizenshipNumber] = useState('');
   const [panNumber, setPANNumber] = useState('');
   const [location, setLocation] = useState('');
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
+  try {
     const contract = await getContract();
-    
-   await contract.setUserData(
-    aes.encryptMessage(name, "hello"),
-    aes.encryptMessage(fatherName, "hello"),
-    aes.encryptMessage(motherName, "hello"),
-    aes.encryptMessage(grandfatherName, "hello"),
-    aes.encryptMessage(phoneNumber, "hello"),
-    aes.encryptMessage(dob, "hello"),
-    aes.encryptMessage(bloodGroup, "hello"),
-    aes.encryptMessage(citizenshipNumber, "hello"),
-    aes.encryptMessage(panNumber, "hello"),
-    aes.encryptMessage(location, "hello"), {
-        gasLimit: 300000 // manually specify the gas limit
-    });
-  };
+
+    const usersData = await contract.setUserData(
+      name,
+      fatherName,
+      motherName,
+      grandfatherName,
+      phoneNumber,
+      dob,
+      bloodGroup,
+      citizenshipNumber,
+      panNumber,
+      location,
+      { gasLimit: 300000 }
+    );
+
+    console.log(usersData);
+  } catch (error) {
+    setError(error.message);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit} class="w-full max-w-sm">
@@ -98,6 +105,7 @@ export default function FillUpForm() {
     </label>
     <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
  </div>
+ {error && <p class="text-red-500">{error}</p>}
  <div class="flex items-center justify-between">
     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
       Submit
