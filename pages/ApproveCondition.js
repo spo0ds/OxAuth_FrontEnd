@@ -1,75 +1,76 @@
-import { useState } from 'react';
-import { getContract } from './contract';
+import { getContract } from "./contract"
+import { useState } from "react"
+import { ethers } from "ethers"
 
-export default function ApproveCondition() {
-    const [dataRequester, setDataRequester] = useState('');
-    const [dataProvider, setDataProvider] = useState('');
-    const [data, setData] = useState('');
-    const [approved, setApproved] = useState(false);
-    const [error, setError] = useState(null);
+export default function Home() {
+    const [dataRequester, setDataRequester] = useState("")
+    const [dataProvider, setDataProvider] = useState("")
+    const [data, setData] = useState("")
+    const [status, setStatus] = useState("")
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError(null);
+        event.preventDefault()
+        const contract = await getContract()
 
-        try {
-            const contract = await getContract();
-            const result = await contract.approveCondition(dataRequester, dataProvider, data);
-            setApproved(result);
-        } catch (err) {
-            setError(err.message);
-        }
-    };
+        const result = await contract.approveCondition(dataRequester, dataProvider, data)
+        setStatus(result ? "Approved" : "Not approved")
+    }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full max-w-sm">
-             <h2 class="py-5 text-4xl font-bold dark:text-yellow">Approve Condition</h2>
-            <div className="mb-4">
-                <label htmlFor="data-requester" className="block text-gray-700 font-bold mb-2">
-                    DataRequester Address:
-                </label>
-                <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    id="data-requester"
-                    type="text"
-                    value={dataRequester}
-                    onChange={(e) => setDataRequester(e.target.value)}
-                />
-            </div>
-            <hr className="my-4" />
-            <div className="mb-4">
-                <label htmlFor="data-provider" className="block text-gray-700 font-bold mb-2">
-                    DataProvider Address:
-                </label>
-                <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    id="data-provider"
-                    type="text"
-                    value={dataProvider}
-                    onChange={(e) => setDataProvider(e.target.value)}
-                />
-            </div>
-            <hr className="my-4" />
-            <div className="mb-4">
-                <label htmlFor="data" className="block text-gray-700 font-bold mb-2">
-                    Data:
-                </label>
-                <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    id="data"
-                    type="text"
-                    value={data}
-                    onChange={(e) => setData(e.target.value)}
-                />
-            </div>
-            <hr className="my-4" />
-            {error && <p className="text-red-500">{error}</p>}
-            <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" type="submit">
-                Check Approval
-            </button>
-            <br className="mt-4" />
-            {approved && <p className="text-green-500">Data is approved</p>}
-            {!approved && error === null && <p className="text-red-500">Data is not approved</p>}
-        </form>
-    );
+        <div className="max-w-md mx-auto">
+            <form
+                onSubmit={handleSubmit}
+                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            >
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="dataRequester">
+                        Data requester address:
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="dataRequester"
+                        type="text"
+                        placeholder="Enter data requester address"
+                        value={dataRequester}
+                        onChange={(event) => setDataRequester(event.target.value)}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="dataProvider">
+                        Data provider address:
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="dataProvider"
+                        type="text"
+                        placeholder="Enter data provider address"
+                        value={dataProvider}
+                        onChange={(event) => setDataProvider(event.target.value)}
+                    />
+                </div>
+                <div className="mb-6">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="data">
+                        Data:
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="data"
+                        type="text"
+                        placeholder="Enter data"
+                        value={data}
+                        onChange={(event) => setData(event.target.value)}
+                    />
+                </div>
+                <div className="flex items-center justify-center">
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit"
+                    >
+                        Check Approval
+                    </button>
+                </div>
+            </form>
+            <p className="text-center">{status}</p>
+        </div>
+    )
 }

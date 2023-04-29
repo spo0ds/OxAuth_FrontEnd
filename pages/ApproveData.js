@@ -1,51 +1,59 @@
-import { useState } from 'react';
-import { getContract } from './contract';
+import { useState } from "react"
+import { ethers } from "ethers"
+import { getContract } from "./contract"
 
-export default function ApproveData() {
-    const [dataRequester, setDataRequester] = useState('');
-    const [kycField, setKycField] = useState('');
-    const [error, setError] = useState(null);
+export default function Home() {
+    const [dataRequester, setDataRequester] = useState("")
+    const [kycField, setKycField] = useState("")
+    const [status, setStatus] = useState("")
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError(null);
+        event.preventDefault()
+        const contract = await getContract()
 
-        try {
-            const contract = await getContract();
-
-            await contract.requestApproveFromDataProvider(
-                dataRequester,
-                kycField,
-                {
-                    gasLimit: 300000
-                }
-            );
-        } catch (err) {
-            setError(err.message);
-        }
-    };
+        const result = await contract.grantAccessToRequester(dataRequester, kycField)
+        setStatus("Access granted")
+    }
 
     return (
-        <form class="w-full max-w-sm" onSubmit={handleSubmit}>
-         <h2 class="py-5 text-4xl font-bold dark:text-yellow">Approving Data From Provider</h2>
-        <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
-            DataRequester Address:
-          </label>
-          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={dataRequester} onChange={(e) => setDataRequester(e.target.value)} />
+        <div className="min-h-screen flex justify-center items-center bg-gray-100">
+            <div className="max-w-md w-full mx-auto">
+                <div className="bg-white rounded-lg shadow-lg p-8">
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label htmlFor="dataRequester" className="block font-medium mb-2">
+                                Data requester address:
+                            </label>
+                            <input
+                                type="text"
+                                id="dataRequester"
+                                value={dataRequester}
+                                onChange={(event) => setDataRequester(event.target.value)}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="kycField" className="block font-medium mb-2">
+                                KYC field:
+                            </label>
+                            <input
+                                type="text"
+                                id="kycField"
+                                value={kycField}
+                                onChange={(event) => setKycField(event.target.value)}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                            Grant Access
+                        </button>
+                    </form>
+                    <p className="mt-4 text-center">{status}</p>
+                </div>
+            </div>
         </div>
-        <hr class="mb-4" />
-        <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
-            KYC Field:
-          </label>
-          <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" value={kycField} onChange={(e) => setKycField(e.target.value)} />
-        </div>
-        <hr class="mb-4" />
-        {error && <p class="text-red-500">{error}</p>}
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
-          Approve KYC
-        </button>
-      </form> 
-    );
+    )
 }

@@ -18,12 +18,9 @@ export default function DecryptData() {
 
         try {
             const contract = await getContract()
-            const decryptedData = aes.decryptMessage(
-                await contract.decryptMyData(dataProvider, data, {
-                    gasLimit: 300000,
-                }),
-                "hello"
-            )
+            const decryptedData = await contract.decryptMyData(dataProvider, data, {
+                gasLimit: 300000,
+            })
             setDecryptData(decryptedData)
         } catch (err) {
             setError(err.message)
