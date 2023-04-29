@@ -1,68 +1,50 @@
-import React, { useState } from "react"
+import { useState } from "react"
+import { ethers } from "ethers"
 import { getContract } from "./contract"
 
-export default function DisplayData() {
+export default function Home() {
     const [dataProvider, setDataProvider] = useState("")
     const [kycField, setKycField] = useState("")
     const [data, setData] = useState("")
-    const [error, setError] = useState("")
+    const [status, setStatus] = useState("")
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
             const contract = await getContract()
-            const result = await contract.getRequestedDataFromProvider(dataProvider, kycField, {
-                gasLimit: 300000,
-            })
+            const result = await contract.getRequestedDataFromProvider(dataProvider, kycField)
             setData(result)
+            setStatus("Data retrieved")
         } catch (error) {
-            setError(error.message)
+            setStatus(error.message)
         }
     }
 
     return (
         <div>
-            <h2 class="py-5 text-4xl font-bold dark:text-yellow">Get Retrieve Data</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="dataProvider" class="block text-gray-700 font-bold mb-2">
-                    Data Provider:
+                <label>
+                    Data provider address:
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="dataProvider"
                         type="text"
                         value={dataProvider}
-                        onChange={(e) => setDataProvider(e.target.value)}
+                        onChange={(event) => setDataProvider(event.target.value)}
                     />
                 </label>
-                <label htmlFor="kycField" class="block text-gray-700 font-bold mb-2">
-                    KYC Field:
+                <br />
+                <label>
+                    KYC field:
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="kycField"
                         type="text"
                         value={kycField}
-                        onChange={(e) => setKycField(e.target.value)}
+                        onChange={(event) => setKycField(event.target.value)}
                     />
                 </label>
-                <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    type="submit"
-                >
-                    Get Data
-                </button>
+                <br />
+                <button type="submit">Get Data</button>
             </form>
-            {data && (
-                <div>
-                    <h2>Retrieved Data:</h2>
-                    <p>{data}</p>
-                </div>
-            )}
-            {error && (
-                <div>
-                    <h2>Error:</h2>
-                    <p>{error}</p>
-                </div>
-            )}
+            <p>Status: {status}</p>
+            {data && <p>Data: {data}</p>}
         </div>
     )
 }
