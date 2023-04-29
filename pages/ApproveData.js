@@ -27,6 +27,7 @@ export default function ApproveData() {
 
     return (
         <form class="w-full max-w-sm" onSubmit={handleSubmit}>
+         <h2 class="py-5 text-4xl font-bold dark:text-yellow">Approving Data From Provider</h2>
         <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
             DataRequester Address:
