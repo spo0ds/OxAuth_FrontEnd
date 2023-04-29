@@ -32,7 +32,7 @@ export default function nft() {
 
         // Get the contract instance
         const contract = new ethers.Contract(
-            "0xd261F4313fc1a12490d0539332fbb6C881faE6fF",
+            "0x5FbDB2315678afecb367f032d93F642f64180aa3",
             abi,
             signer
         )
