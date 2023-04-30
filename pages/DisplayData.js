@@ -11,11 +11,14 @@ export default function Home() {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            const contract = await getContract()
-            const result = await contract.getRequestedDataFromProvider(dataProvider, kycField)
+            const contract = await getContract() // pass the provider to the getContract function
+            console.log(contract)
+            const result = await contract.getRequestedDataFromProvider(dataProvider, kycField) // use the correct contract method name
+            console.log(result)
             setData(result)
             setStatus("Data retrieved")
         } catch (error) {
+            console.error(error)
             setStatus(error.message)
         }
     }
