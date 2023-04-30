@@ -188,61 +188,60 @@ export default function nft() {
     }
 
     return (
-        <div class="p-4">
-            <h1 class="text-2xl font-bold mb-4">Mint an NFT</h1>
-            {minting ? (
-                <p class="mb-4">Minting NFT...</p>
-            ) : (
-                <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-                    onClick={handleMint}
-                >
-                    Mint NFT
-                </button>
-            )}
-            {txHash && <p class="mb-4">Transaction Hash: {txHash}</p>}
-            {tokenId && <p class="mb-4">Token ID: {tokenId}</p>}
-            {tokenURI && (
-                <div class="mb-4">
-                    <p class="mb-2">Token URI:</p>
-                    <pre class="bg-gray-100 p-2 rounded">{tokenURI}</pre>
-                </div>
-            )}
-            {error && <p class="text-red-500 mb-4">Error: {error}</p>}
-            <h1 class="text-2xl font-bold mb-4">Burn NFT</h1>
+      <div class="p-4 bg-gray-900 text-white">
+  <h1 class="text-3xl font-bold mb-8">Mint an NFT</h1>
+  {minting ? (
+    <p class="mb-4">Minting NFT...</p>
+  ) : (
+    <button
+      class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mb-8"
+      onClick={handleMint}
+    >
+      Mint NFT
+    </button>
+  )}
+  {txHash && <p class="mb-4">Transaction Hash: {txHash}</p>}
+  {tokenId && <p class="mb-4">Token ID: {tokenId}</p>}
+  {tokenURI && (
+    <div class="mb-4">
+      <p class="mb-2">Token URI:</p>
+      <pre class="bg-gray-800 p-2 rounded">{tokenURI}</pre>
+    </div>
+  )}
+  {error && <p class="text-red-500 mb-4">Error: {error}</p>}
+  <h1 class="text-3xl font-bold mb-8">Burn NFT</h1>
 
-            {/* Check NFT */}
-            <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-                onClick={handleCheckNFT}
-            >
-                Check for NFT
-            </button>
-            {error && <p class="text-red-500 mb-4">{error}</p>}
-            {hasNFT && <p class="mb-4">You have an NFT!</p>}
-            {tokenId && <p class="mb-4">NFT ID: {tokenId}</p>}
-            {tokenURI && (
-                <img
-                    class="mb-4 object-contain hover:object-scale-down"
-                    src={tokenURI}
-                    alt="NFT"
-                />
-            )}
-
-            {/* Burn NFT */}
-            {hasNFT && (
-                <div>
-                    <button
-                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4"
-                        onClick={() => handleBurn(tokenId)}
-                    >
-                        Burn
-                    </button>
-
-                    {burning && <p class="mb-4">Burning...</p>}
-                    {txHash && <p class="mb-4">Transaction hash: {txHash}</p>}
-                </div>
-            )}
-        </div>
+  {/* Check NFT */}
+  <button
+    class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mb-8"
+    onClick={handleCheckNFT}
+  >
+    Check for NFT
+  </button>
+  {error && <p class="text-red-500 mb-4">{error}</p>}
+  {hasNFT && <p class="mb-4">You have an NFT!</p>}
+  {tokenId && (
+    <div class="grid grid-cols-2 gap-2 mb-8">
+      <img
+        class="h-auto max-w-full rounded-lg shadow-lg"
+        src={tokenURI}
+        alt="NFT"
+      />
+      <div class="flex flex-col justify-center">
+        <p class="font-bold text-xl mb-2">NFT ID:</p>
+        <p class="mb-2">{tokenId}</p>
+        <button
+          class="py-3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4"
+          onClick={() => handleBurn(tokenId)}
+        >
+          Burn
+        </button>
+        {burning && <p class="mb-4">Burning...</p>}
+        {txHash && <p class="mb-4">Transaction hash: {txHash}</p>}
+      </div>
+    </div>
+  )}
+</div>
+ 
     )
 }
