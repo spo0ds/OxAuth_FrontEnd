@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { ethers } from "ethers"
 import { getContract } from "./contract"
 
 export default function Home() {
@@ -22,28 +21,41 @@ export default function Home() {
 
     return (
         <div>
+            <h2 class="py-5 text-4xl font-bold dark:text-yellow">Displaying Data</h2>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Data provider address:
-                    <input
-                        type="text"
-                        value={dataProvider}
-                        onChange={(event) => setDataProvider(event.target.value)}
-                    />
-                </label>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+                        Data provider address:
+                        <input
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                            id="inline-full-name"
+                            type="text"
+                            value={dataProvider}
+                            onChange={(event) => setDataProvider(event.target.value)}
+                        />
+                    </label>
+                </div>
                 <br />
-                <label>
-                    KYC field:
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+                        KYC field:
+                    </label>
                     <input
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name"
                         type="text"
                         value={kycField}
                         onChange={(event) => setKycField(event.target.value)}
                     />
-                </label>
-                <br />
+                    <br />
+                </div>
                 <button type="submit">Get Data</button>
             </form>
-            <p>Status: {status}</p>
+            {status && (
+                <p class="text-red-500">
+                    {status}
+                </p>
+            )}
             {data && <p>Data: {data}</p>}
         </div>
     )
