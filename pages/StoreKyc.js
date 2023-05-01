@@ -3,9 +3,11 @@ import { getContract } from "./contract"
 
 export default function StoreKyc() {
     const [dataRequester, setDataRequester] = useState("")
+    const [dataProvider, setDataProvider] = useState("")
     const [kycField, setKycField] = useState("")
-    const [data, setData] = useState("")
+    const [status1, setStatus1] = useState("")
     const [status, setStatus] = useState("")
+    const [decryptedData, setDecryptedData] = useState("")
 
     const handleDataRequesterChange = (event) => {
         setDataRequester(event.target.value)
@@ -15,27 +17,32 @@ export default function StoreKyc() {
         setKycField(event.target.value)
     }
 
-    const handleDataChange = (event) => {
-        setData(event.target.value)
-    }
-
     const handleSubmit = async (event) => {
         event.preventDefault()
         setStatus("Submitting data...")
 
-        if (!dataRequester || !kycField || !data) {
+        if (!dataRequester || !kycField) {
             setStatus("Please fill in all fields.")
             return
         }
 
         try {
             const contract = await getContract()
+            const result = await contract.grantAccessToRequester(dataRequester, kycField)
+            setStatus1("Access granted")
 
+            const decryptedData = await contract.decryptMyData(dataProvider, kycField, {
+                gasLimit: 300000,
+            })
+            console.log(decryptedData)
+            setDecryptedData(decryptedData)
+            
+        
             // Call the function on the contract and pass the arguments
             const tx = await contract.storeRsaEncryptedinRetrievable(
                 dataRequester,
                 kycField,
-                data,
+                decryptedData,
                 {
                     gasLimit: 300000,
                 }
@@ -52,6 +59,18 @@ export default function StoreKyc() {
 
     return (
         <div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+                    DataProvider address:
+                </label>
+                <input
+                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    id="inline-full-name"
+                    type="text"
+                    value={dataProvider}
+                    onChange={(e) => setDataProvider(e.target.value)}
+                />
+            </div>
             <h2 class="py-5 text-4xl font-bold dark:text-yellow">Storing KYC</h2>
             <form onSubmit={handleSubmit}>
                 <label class="block text-gray-700 font-bold mb-2" for="dataRequester">
@@ -74,7 +93,7 @@ export default function StoreKyc() {
                         onChange={handleKycFieldChange}
                     />
                 </label>
-                <label class="block text-gray-700 font-bold mb-2" for="data">
+                {/* <label class="block text-gray-700 font-bold mb-2" for="data">
                     Data:
                     <input
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -83,7 +102,7 @@ export default function StoreKyc() {
                         value={data}
                         onChange={handleDataChange}
                     />
-                </label>
+                </label>  */}
                 <button
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     type="submit"
@@ -91,6 +110,8 @@ export default function StoreKyc() {
                     Submit
                 </button>
             </form>
+            <p>{decryptedData}</p>
+            <p>{status1}</p>
             <p>{status}</p>
         </div>
     )
