@@ -38,6 +38,12 @@ export default function Header() {
                 <Link href="/StoreKyc">
                     <a className="mr-4 p-6">Store KYC</a>
                 </Link>
+                <Link href="/UpdateData">
+                    <a className="mr-4 p-6">Update Data</a>
+                </Link>
+                <Link href="/RevokeData">
+                    <a className="mr-4 p-6">Revoke Data</a>
+                </Link>
                 <ConnectButton moralisAuth={false} />
             </div>
         </nav>
