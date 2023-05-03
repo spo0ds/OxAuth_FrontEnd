@@ -35,19 +35,19 @@ export default function Header() {
                                 Display Data
                             </a>
                         </Link>
-                        <Link href="/ApproveStatus">
+                        <Link href="/ApproveCondition">
                             <a className="block px-3 py-2 rounded hover:bg-gray-200 lg:mx-3 lg:my-0 my-1">
-                                Approve Condition
+                                Approve Status
                             </a>
                         </Link>
-                        <Link href="/DecryptMyData">
+                        <Link href="/DecryptData">
                             <a className="block px-3 py-2 rounded hover:bg-gray-200 lg:mx-3 lg:my-0 my-1">
-                                Decrypt Data
+                                Decrypt My Data
                             </a>
                         </Link>
-                        <Link href="/Approve">
+                        <Link href="/StoreKyc">
                             <a className="block px-3 py-2 rounded hover:bg-gray-200 lg:mx-3 lg:my-0 my-1">
-                                Store KYC
+                                Approve
                             </a>
                         </Link>
                         <Link href="/UpdateData">
@@ -55,9 +55,9 @@ export default function Header() {
                                 Update Data
                             </a>
                         </Link>
-                        <Link href="/RevokeAccess">
+                        <Link href="/RevokeData">
                             <a className="block px-3 py-2 rounded hover:bg-gray-200 lg:mx-3 lg:my-0 my-1">
-                                Revoke Data
+                                Revoke Access
                             </a>
                         </Link>
                     </div>
