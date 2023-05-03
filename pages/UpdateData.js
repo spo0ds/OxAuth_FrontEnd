@@ -23,7 +23,7 @@ export default function UpdateData() {
     }
 
     return (
-        <div>
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
             <h2 class="py-5 text-4xl font-bold dark:text-yellow">Updating Data </h2>
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">

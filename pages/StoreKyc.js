@@ -36,8 +36,7 @@ export default function StoreKyc() {
             })
             console.log(decryptedData)
             setDecryptedData(decryptedData)
-            
-        
+
             // Call the function on the contract and pass the arguments
             const tx = await contract.storeRsaEncryptedinRetrievable(
                 dataRequester,
@@ -58,7 +57,7 @@ export default function StoreKyc() {
     }
 
     return (
-        <div>
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
                     DataProvider address:

@@ -190,7 +190,7 @@ export default function nft() {
     }
 
     return (
-        <div class="p-4 bg-gray-900 text-white">
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 justify-center">
             <h1 class="text-3xl font-bold mb-8">Mint an NFT</h1>
             {minting ? (
                 <p class="mb-4">Minting NFT...</p>

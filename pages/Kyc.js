@@ -41,7 +41,7 @@ export default function FillUpForm() {
     }
 
     return (
-        <div class="flex justify-center">
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex justify-center">
             <form onSubmit={handleSubmit} class="w-full max-w-sm mx-auto">
                 <div class="mb-4"></div>
                 <div class="mb-4">

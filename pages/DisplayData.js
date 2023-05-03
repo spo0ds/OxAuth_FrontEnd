@@ -23,7 +23,7 @@ export default function Home() {
     }
 
     return (
-        <div>
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
             <h2 class="py-5 text-4xl font-bold dark:text-yellow">Displaying Data</h2>
             <form onSubmit={handleSubmit}>
                 <div class="mb-4">
@@ -54,11 +54,7 @@ export default function Home() {
                 </div>
                 <button type="submit">Get Data</button>
             </form>
-            {status && (
-                <p class="text-red-500">
-                    {status}
-                </p>
-            )}
+            {status && <p class="text-red-500">{status}</p>}
             {data && <p>Data: {data}</p>}
         </div>
     )

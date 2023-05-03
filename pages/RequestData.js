@@ -22,7 +22,7 @@ export default function RequestData() {
     }
 
     return (
-        <div>
+        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
             <h2 class="py-5 text-4xl font-bold dark:text-yellow">Request Data for approval</h2>
             <form class="w-full max-w-sm" onSubmit={handleSubmit}>
                 <div class="mb-4">

@@ -48,7 +48,7 @@ export default function DecryptData() {
         }
     }
     return (
-        <div>
+        <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
             <h2 class="py-5 text-4xl font-bold dark:text-yellow">Decrypting data </h2>
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
