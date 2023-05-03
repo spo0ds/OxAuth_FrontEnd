@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { getContract } from "./contract"
+import { aes } from "../utils/aes"
 
 export default function StoreKyc() {
     const [dataRequester, setDataRequester] = useState("")
@@ -8,6 +9,7 @@ export default function StoreKyc() {
     const [status1, setStatus1] = useState("")
     const [status, setStatus] = useState("")
     const [decryptedData, setDecryptedData] = useState("")
+    const [encryptionKey, setEncryptionKey] = useState("")
 
     const handleDataRequesterChange = (event) => {
         setDataRequester(event.target.value)
@@ -28,12 +30,13 @@ export default function StoreKyc() {
 
         try {
             const contract = await getContract()
-            const result = await contract.grantAccessToRequester(dataRequester, kycField)
+
+            await contract.grantAccessToRequester(dataRequester, kycField)
             setStatus1("Access granted")
 
-            const decryptedData = await contract.decryptMyData(dataProvider, kycField, {
-                gasLimit: 300000,
-            })
+            const encryptedData = await contract.decryptMyData(dataProvider, kycField)
+            console.log(`encryptedData:${encryptedData}`)
+            const decryptedData = aes.decryptMessage(encryptedData, encryptionKey)
             console.log(decryptedData)
             setDecryptedData(decryptedData)
 
@@ -43,7 +46,7 @@ export default function StoreKyc() {
                 kycField,
                 decryptedData,
                 {
-                    gasLimit: 300000,
+                    gasLimit: 800000,
                 }
             )
 
@@ -57,53 +60,55 @@ export default function StoreKyc() {
     }
 
     return (
-        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-            <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+        <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+            <h2 className="py-5 text-4xl font-bold dark:text-yellow">Storing KYC</h2>
+            <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="inline-full-name">
                     DataProvider address:
                 </label>
                 <input
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
                     type="text"
                     value={dataProvider}
                     onChange={(e) => setDataProvider(e.target.value)}
                 />
             </div>
-            <h2 class="py-5 text-4xl font-bold dark:text-yellow">Storing KYC</h2>
             <form onSubmit={handleSubmit}>
-                <label class="block text-gray-700 font-bold mb-2" for="dataRequester">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="dataRequester">
                     Data requester:
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         id="dataRequester"
                         type="text"
                         value={dataRequester}
-                        onChange={handleDataRequesterChange}
+                        onChange={(e) => setDataRequester(e.target.value)}
                     />
                 </label>
-                <label class="block text-gray-700 font-bold mb-2" for="kycField">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="kycField">
                     KYC field:
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         id="kycField"
                         type="text"
                         value={kycField}
-                        onChange={handleKycFieldChange}
+                        onChange={(e) => setKycField(e.target.value)}
                     />
                 </label>
-                {/* <label class="block text-gray-700 font-bold mb-2" for="data">
-                    Data:
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="encryption-key">
+                        Encryption key:
+                    </label>
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="data"
-                        type="text"
-                        value={data}
-                        onChange={handleDataChange}
+                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-full-name"
+                        type="password"
+                        value={encryptionKey}
+                        onChange={(e) => setEncryptionKey(e.target.value)}
                     />
-                </label>  */}
+                </div>
                 <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     type="submit"
                 >
                     Submit
