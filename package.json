@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "ascii85": "^1.0.2",
+    "base64-arraybuffer": "^1.0.2",
     "crypto-js": "^4.1.1",
     "eth-crypto": "^2.6.0",
     "eth-sig-util": "^3.0.1",
@@ -24,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-moralis": "^1.4.2",
+    "tweetnacl": "^1.0.3",
     "web3uikit": "^1.0.4"
   },
   "devDependencies": {
