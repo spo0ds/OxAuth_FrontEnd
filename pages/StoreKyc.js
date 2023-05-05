@@ -21,7 +21,51 @@ export default function StoreKyc() {
         setKycField(event.target.value)
     }
 
+    // const generateKeyPair = async () => {
+    //     const keyPair = await window.crypto.subtle.generateKey(
+    //         {
+    //             name: "RSA-OAEP",
+    //             modulusLength: 2048,
+    //             publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+    //             hash: "SHA-256",
+    //         },
+    //         true,
+    //         ["encrypt", "decrypt"]
+    //     )
+
+    //     // setPrivateKey(keyPair.privateKey)
+    //     setPublicKey(keyPair.publicKey)
+    // }
     const generateKeyPair = async () => {
+        const encoder = new TextEncoder()
+        const salt = encoder.encode("salt") // salt should be unique per user
+        const seed = encoder.encode("my secret seed phrase")
+        const iterations = 100000 // number of iterations for the KDF
+        const keyLength = 256 // key length in bits
+
+        // Derive a symmetric key from the seed phrase using PBKDF2
+        const symmetricKey = await window.crypto.subtle.importKey(
+            "raw",
+            new Uint8Array(
+                await window.crypto.subtle.deriveBits(
+                    {
+                        name: "PBKDF2",
+                        salt,
+                        iterations,
+                        hash: "SHA-256",
+                    },
+                    await window.crypto.subtle.importKey("raw", seed, { name: "PBKDF2" }, false, [
+                        "deriveBits",
+                    ]),
+                    keyLength
+                )
+            ),
+            { name: "AES-GCM" },
+            false,
+            ["encrypt", "decrypt"]
+        )
+
+        // Generate an RSA key pair
         const keyPair = await window.crypto.subtle.generateKey(
             {
                 name: "RSA-OAEP",
@@ -33,8 +77,28 @@ export default function StoreKyc() {
             ["encrypt", "decrypt"]
         )
 
-        // setPrivateKey(keyPair.privateKey)
+        // Export the private key as a plain ArrayBuffer
+        const privateKeyData = await window.crypto.subtle.exportKey("raw", keyPair.privateKey)
+        setPrivateKey(keyPair.privateKey)
+
+        // Encrypt the private key with the symmetric key
+        const iv = window.crypto.getRandomValues(new Uint8Array(12)) // generate a random IV
+        const encryptedPrivateKey = await window.crypto.subtle.encrypt(
+            {
+                name: "AES-GCM",
+                iv,
+                tagLength: 128,
+            },
+            symmetricKey,
+            privateKeyData
+        )
+
+        // Export the public key as a JWK
+        const publicKeyJwk = await window.crypto.subtle.exportKey("jwk", keyPair.publicKey)
         setPublicKey(keyPair.publicKey)
+
+        // Return the encrypted private key and the public key
+        return { privateKey: encryptedPrivateKey, publicKey: publicKeyJwk }
     }
 
     // const encryptMessage = async () => {
@@ -92,7 +156,7 @@ export default function StoreKyc() {
                     name: "RSA-OAEP",
                 },
                 publicKey,
-                data 
+                data
             )
 
             setEncryptedMessage(new Uint8Array(encrypted))
