@@ -1,6 +1,35 @@
 import { useState } from "react"
 import { getContract } from "./contract"
 import { aes } from "../utils/aes"
+import { ethers } from "ethers"
+const Buffer = require("buffer/").Buffer
+const sigUtil = require("eth-sig-util")
+
+if (!window.ethereum) {
+    alert("web3 is required")
+}
+
+const provider = window.ethereum
+
+async function getPublicKey(account) {
+    const encryptionPublicKey = await window.ethereum.request({
+        method: "eth_getEncryptionPublicKey",
+        params: [account],
+    })
+    return encryptionPublicKey
+}
+
+async function encrypt(msg, walletAddress) {
+    const encryptionPublicKey = await getPublicKey(walletAddress)
+    const buf = Buffer.from(
+        JSON.stringify(
+            sigUtil.encrypt(encryptionPublicKey, { data: msg }, "x25519-xsalsa20-poly1305")
+        ),
+        "utf8"
+    )
+
+    return "0x" + buf.toString("hex")
+}
 
 export default function StoreKyc() {
     const [dataRequester, setDataRequester] = useState("")
@@ -9,7 +38,13 @@ export default function StoreKyc() {
     const [status1, setStatus1] = useState("")
     const [status, setStatus] = useState("")
     const [decryptedData, setDecryptedData] = useState("")
-    const [encryptionKey, setEncryptionKey] = useState("")
+    const [aesEncryptionKey, setAesEncryptionKey] = useState("")
+
+    if (!window.ethereum) {
+        alert("web3 is required")
+    }
+
+    const provider = window.ethereum
 
     const handleDataRequesterChange = (event) => {
         setDataRequester(event.target.value)
@@ -29,22 +64,44 @@ export default function StoreKyc() {
         }
 
         try {
+            const accounts = await window.ethereum.request({ method: "eth_requestAccounts" })
+            const publicKey = await getPublicKey(accounts[0])
+
             const contract = await getContract()
 
-            await contract.grantAccessToRequester(dataRequester, kycField)
+            if (!(await contract.approveCondition(dataRequester, dataProvider, kycField))) {
+                await contract.grantAccessToRequester(dataRequester, kycField, {
+                    gasLimit: 800000,
+                })
+            }
             setStatus1("Access granted")
 
-            const encryptedData = await contract.decryptMyData(dataProvider, kycField)
+            setDataProvider("some data provider")
+
+            const encryptedData = await contract.decryptMyData(dataProvider, kycField, {
+                gasLimit: 800000,
+            })
             console.log(`encryptedData:${encryptedData}`)
-            const decryptedData = aes.decryptMessage(encryptedData, encryptionKey)
-            console.log(decryptedData)
-            setDecryptedData(decryptedData)
+            setDecryptedData(aes.decryptMessage(encryptedData, aesEncryptionKey))
+            if (decryptedData.length < 0) {
+                throw new Error("Undefined data")
+            }
+            console.log(`AES Descrypted message : ${decryptedData}`)
+
+            // Check if dataRequester is a valid Ethereum address
+            if (!ethers.utils.isAddress(dataRequester)) {
+                throw new Error("Invalid Ethereum address")
+            }
+
+            const rsaEncryptedText = await encrypt(decryptedData, publicKey)
+
+            console.log(rsaEncryptedText)
 
             // Call the function on the contract and pass the arguments
             const tx = await contract.storeRsaEncryptedinRetrievable(
                 dataRequester,
                 kycField,
-                decryptedData,
+                rsaEncryptedText,
                 {
                     gasLimit: 800000,
                 }
@@ -55,6 +112,7 @@ export default function StoreKyc() {
             setStatus(`Transaction confirmed: ${receipt.transactionHash}`)
         } catch (error) {
             console.error(error)
+            console.log(error)
             setStatus("Error submitting data")
         }
     }
@@ -103,8 +161,8 @@ export default function StoreKyc() {
                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                         id="inline-full-name"
                         type="password"
-                        value={encryptionKey}
-                        onChange={(e) => setEncryptionKey(e.target.value)}
+                        value={aesEncryptionKey}
+                        onChange={(e) => setAesEncryptionKey(e.target.value)}
                     />
                 </div>
                 <button

@@ -1,6 +1,22 @@
 import { useState } from "react"
 import { getContract } from "./contract"
 
+if (!window.ethereum) {
+    alert("web3 is required")
+}
+
+const provider = window.ethereum
+
+async function decrypt(encMsg) {
+    const accounts = await provider.enable()
+    const decMsg = await provider.request({
+        method: "eth_decrypt",
+        params: [encMsg, accounts[0]],
+    })
+
+    return decMsg
+}
+
 export default function Home() {
     const [dataProvider, setDataProvider] = useState("")
     const [kycField, setKycField] = useState("")
@@ -14,7 +30,8 @@ export default function Home() {
             console.log(contract)
             const result = await contract.getRequestedDataFromProvider(dataProvider, kycField) // use the correct contract method name
             console.log(result)
-            setData(result)
+            const decryptedData = await decrypt(result)
+            setData(decryptedData)
             setStatus("Data retrieved")
         } catch (error) {
             console.error(error)
