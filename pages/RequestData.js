@@ -22,30 +22,32 @@ export default function RequestData() {
     }
 
     return (
-        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-            <h2 class="py-5 text-4xl font-bold dark:text-yellow">Request Data for approval</h2>
-            <form class="w-full max-w-sm" onSubmit={handleSubmit}>
+        <div class="max-w-md mx-auto">
+            <h2 className="py-5 text-4xl font-bold dark:text-yellow">Request Data for approval</h2>
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+                    <label className="block text-gray-700 font-bold mb-2" for="inline-full-name">
                         DataProvider Address:
                     </label>
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="inline-full-name"
                         type="text"
+                        placeholder="Enter data provider address"
                         value={dataProvider}
                         onChange={(e) => setDataProvider(e.target.value)}
                     />
                 </div>
                 <hr class="mb-4" />
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
+                    <label className="block text-gray-700 font-bold mb-2" for="inline-full-name">
                         KYC Field:
                     </label>
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="inline-full-name"
                         type="text"
+                        placeholder="Enter the KYC Field"
                         value={kycField}
                         onChange={(e) => setKycField(e.target.value)}
                     />

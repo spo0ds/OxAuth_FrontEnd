@@ -189,56 +189,69 @@ export default function nft() {
         setBurning(false)
     }
 
-    return (
-        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 justify-center">
-            <h1 class="text-3xl font-bold mb-8">Mint an NFT</h1>
-            {minting ? (
-                <p class="mb-4">Minting NFT...</p>
-            ) : (
-                <button
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mb-8"
-                    onClick={handleMint}
-                >
-                    Mint NFT
-                </button>
-            )}
-            {txHash && <p class="mb-4">Transaction Hash: {txHash}</p>}
-            {tokenId && <p class="mb-4">Token ID: {tokenId}</p>}
-            {tokenURI && (
-                <div class="mb-4">
-                    <p class="mb-2">Token URI:</p>
-                    <pre class="bg-gray-800 p-2 rounded">{tokenURI}</pre>
-                </div>
-            )}
-            {error && <p class="text-red-500 mb-4">Error: {error}</p>}
-            <h1 class="text-3xl font-bold mb-8">Burn NFT</h1>
-
-            {/* Check NFT */}
-            <button
-                class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mb-8"
-                onClick={handleCheckNFT}
-            >
-                Check for NFT
-            </button>
-            {error && <p class="text-red-500 mb-4">{error}</p>}
-            {hasNFT && <p class="mb-4">You have an NFT!</p>}
-            {tokenId && (
-                <div class="grid grid-cols-2 gap-2 mb-8">
-                    <img class="h-auto max-w-full rounded-lg shadow-lg" src={tokenURI} alt="NFT" />
-                    <div class="flex flex-col justify-center">
-                        <p class="font-bold text-xl mb-2">NFT ID:</p>
-                        <p class="mb-2">{tokenId}</p>
-                        <button
-                            class="py-3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4"
-                            onClick={() => handleBurn(tokenId)}
-                        >
-                            Burn
-                        </button>
-                        {burning && <p class="mb-4">Burning...</p>}
-                        {txHash && <p class="mb-4">Transaction hash: {txHash}</p>}
-                    </div>
-                </div>
-            )}
+return (
+  <div className="bg-purple-900 min-h-screen flex flex-col md:flex-row items-center justify-center">
+    <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 mb-8 md:mr-8 md:mb-0">
+      <h1 className="text-3xl font-bold mb-8 text-center">Mint an NFT</h1>
+      {minting ? (
+        <p className="mb-4">Minting NFT...</p>
+      ) : (
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mb-8"
+          onClick={handleMint}
+        >
+          Mint NFT
+        </button>
+      )}
+      {txHash && <p className="mb-4 break-words">Transaction Hash: {txHash}</p>}
+      {tokenId && <p className="mb-4">Token ID: {tokenId}</p>}
+      {tokenURI && (
+        <div className="mb-4">
+          <p className="mb-2 break-words">Token URI:</p>
+          <p className="bg-gray-800 p-2 rounded text-white break-words">
+            {tokenURI}
+          </p>
         </div>
-    )
+      )}
+      {error && <p className="text-red-500 mb-4">Error: {error}</p>}
+    </div>
+
+    <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
+      <h1 className="text-3xl font-bold mb-8 text-center">Burn NFT</h1>
+      {/* Check NFT */}
+      <button
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded mb-8"
+        onClick={handleCheckNFT}
+      >
+        Check for NFT
+      </button>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {hasNFT && (
+        <div className="mb-4">
+          <p className="mb-4">You have an NFT!</p>
+          {tokenId && (
+            <div className="grid md:grid-cols-2 gap-2">
+              <div className="max-w-full rounded-lg shadow-lg overflow-hidden">
+                <img className="h-auto w-full" src={tokenURI} alt="NFT" />
+              </div>
+              <div className="flex flex-col justify-center">
+                <p className="font-bold text-xl mb-2">NFT ID:</p>
+                <p className="mb-2">{tokenId}</p>
+                <button
+                  className="py-3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4"
+                  onClick={() => handleBurn(tokenId)}
+                >
+                  Burn
+                </button>
+                {burning && <p className="mb-4">Burning...</p>}
+                {txHash && <p className="mb-4 break-words">Transaction hash: {txHash}</p>}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+);
+
 }

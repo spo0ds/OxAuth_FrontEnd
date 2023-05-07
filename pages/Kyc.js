@@ -20,6 +20,17 @@ export default function FillUpForm() {
         event.preventDefault()
 
         try {
+            // Phone number validation
+            const phoneRegex = /^[0-9]{10}$/
+            if (!phoneRegex.test(phoneNumber)) {
+                throw new Error("Please enter a valid 10-digit phone number")
+            }
+
+            // Blood group validation
+            const bloodGroupRegex = /^(A|B|AB|O)[+-]$/
+            if (!bloodGroupRegex.test(bloodGroup)) {
+                throw new Error("Please enter a valid blood group (e.g. A+, B-, AB+, O-)")
+            }
             const contract = await getContract()
             const encryptedName = aes.encryptMessage(name, encryptionKey)
             const encryptedFatherName = aes.encryptMessage(fatherName, encryptionKey)
@@ -70,8 +81,9 @@ export default function FillUpForm() {
     }
 
     return (
-        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex justify-center">
-            <form onSubmit={handleSubmit} class="w-full max-w-sm mx-auto">
+        <div class="max-w-md mx-auto">
+            <h2 class="py-5 text-4xl font-bold dark:text-yellow">KYC FORM</h2>
+            <form onSubmit={handleSubmit} class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="encryption-key-input">
                         Encryption Key:

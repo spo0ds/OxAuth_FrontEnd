@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function Header() {
     return (
-        <nav className="p-5 border-b-2 flex flex-wrap items-center justify-between">
+        <nav className="p-5 border-b-2 flex flex-wrap items-center justify-between w-full lg:w-auto">
             <div className="flex items-center mr-6">
                 <h1 className="font-bold text-3xl">OxAuth</h1>
             </div>
