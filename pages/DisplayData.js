@@ -147,17 +147,17 @@ export default function Home() {
             const encoder = new TextEncoder()
             const data = encoder.encode(new Uint8Array(decryptedData))
             console.log(typeof data)
-            const decrypted = await window.crypto.subtle.decrypt(
-                {
-                    name: "RSA-OAEP",
-                },
-                privateKey,
-                data
-            )
-            console.log(`decryptedData: ${decryptedData}`)
+            // const decrypted = await window.crypto.subtle.decrypt(
+            //     {
+            //         name: "RSA-OAEP",
+            //     },
+            //     privateKey,
+            //     data
+            // )
+            // console.log(`decryptedData: ${decryptedData}`)
 
             const decoder = new TextDecoder()
-            setDecryptedMessage(decoder.decode(new Uint8Array(decrypted)))
+            // setDecryptedMessage(decoder.decode(new Uint8Array(decrypted)))
 
             setStatus("Data retrieved")
         } catch (error) {
@@ -218,11 +218,7 @@ export default function Home() {
                     </button>
                 </form>
                 {status && <p class="text-red-500">{status}</p>}
-                {data && (
-                    <p>
-                        Data: {data} 
-                    </p>
-                )}
+                {data && <p>Data: {data}</p>}
             </div>
         </div>
     )

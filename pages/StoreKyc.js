@@ -36,7 +36,7 @@ export default function StoreKyc() {
     //     // setPrivateKey(keyPair.privateKey)
     //     setPublicKey(keyPair.publicKey)
     // }
-      const generateKeyPair = async () => {
+    const generateKeyPair = async () => {
         const keyPair = await window.crypto.subtle.generateKey(
             {
                 name: "RSA-OAEP",
@@ -141,21 +141,29 @@ export default function StoreKyc() {
         <div className="max-w-md mx-auto">
             <h1 className="py-5 text-4xl font-bold dark:text-yellow">RSA Encryption </h1>
             <div className="mb-4">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generateKeyPair}>Generate Key Pair</button>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={generateKeyPair}
+                >
+                    Generate Key Pair
+                </button>
             </div>
             <div>
                 {/* <p>Private Key: {privateKey ? privateKey.type : "Not generated"}</p> */}
                 <p>Public Key: {publicKey ? publicKey.type : "Not generated"}</p>
             </div>
-            {/* <div>
+            <div>
                 <p>
                     Encrypted Message:{" "}
                     {encryptedMessage ? encryptedMessage.join(", ") : "Not encrypted"}
                 </p>
-            </div> */}
+            </div>
 
-                <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                 <div className="mb-4">
+            <form
+                onSubmit={handleSubmit}
+                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            >
+                <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="dataProvider">
                         Data provider address:
                     </label>
@@ -194,31 +202,28 @@ export default function StoreKyc() {
                         onChange={(event) => setKycField(event.target.value)}
                     />
                 </div>
-                    <div className="mb-4">
-                        <label
-                            className="block text-gray-700 font-bold mb-2"
-                            htmlFor="encryption-key"
-                        >
-                            Encryption key:
-                        </label>
-                        <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="inline-full-name"
-                            type="password"
-                            value={encryptionKey}
-                            onChange={(e) => setEncryptionKey(e.target.value)}
-                        />
-                    </div>
-                    <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
-                </form>
-                <p>{decryptedData}</p>
-                <p>{status1}</p>
-                <p>{status}</p>
-            </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="encryption-key">
+                        Encryption key:
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="inline-full-name"
+                        type="password"
+                        value={encryptionKey}
+                        onChange={(e) => setEncryptionKey(e.target.value)}
+                    />
+                </div>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit"
+                >
+                    Submit
+                </button>
+            </form>
+            <p>{decryptedData}</p>
+            <p>{status1}</p>
+            <p>{status}</p>
+        </div>
     )
 }

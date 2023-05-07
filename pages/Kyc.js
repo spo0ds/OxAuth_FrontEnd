@@ -20,6 +20,17 @@ export default function FillUpForm() {
         event.preventDefault()
 
         try {
+            // Phone number validation
+            const phoneRegex = /^[0-9]{10}$/
+            if (!phoneRegex.test(phoneNumber)) {
+                throw new Error("Please enter a valid 10-digit phone number")
+            }
+
+            // Blood group validation
+            const bloodGroupRegex = /^(A|B|AB|O)[+-]$/
+            if (!bloodGroupRegex.test(bloodGroup)) {
+                throw new Error("Please enter a valid blood group (e.g. A+, B-, AB+, O-)")
+            }
             const contract = await getContract()
             const encryptedName = aes.encryptMessage(name, encryptionKey)
             const encryptedFatherName = aes.encryptMessage(fatherName, encryptionKey)
