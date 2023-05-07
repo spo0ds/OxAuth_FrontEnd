@@ -12,22 +12,22 @@ export default function Home() {
     const [encryptedMessage, setEncryptedMessage] = useState(null)
     const [decryptedMessage, setDecryptedMessage] = useState(null)
 
-    const generateKeyPair = async () => {
-        const keyPair = await window.crypto.subtle.generateKey(
-            {
-                name: "RSA-OAEP",
-                modulusLength: 2048,
-                publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-                hash: "SHA-256",
-            },
-            true,
-            ["encrypt", "decrypt"]
-        )
+    // const generateKeyPair = async () => {
+    //     const keyPair = await window.crypto.subtle.generateKey(
+    //         {
+    //             name: "RSA-OAEP",
+    //             modulusLength: 2048,
+    //             publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+    //             hash: "SHA-256",
+    //         },
+    //         true,
+    //         ["encrypt", "decrypt"]
+    //     )
 
-        setPrivateKey(keyPair.privateKey)
-        console.log(keyPair.privateKey)
-        setPublicKey(keyPair.publicKey)
-    }
+    //     setPrivateKey(keyPair.privateKey)
+    //     console.log(keyPair.privateKey)
+    //     setPublicKey(keyPair.publicKey)
+    // }
     //  const generateKeyPair = async () => {
     //     const encoder = new TextEncoder()
     //     const salt = encoder.encode("salt") // salt should be unique per user
@@ -131,6 +131,18 @@ export default function Home() {
             console.log(typeof result)
             const decryptedData = result
             setData(decryptedData)
+            const keyPair = await window.crypto.subtle.generateKey(
+                {
+                    name: "RSA-OAEP",
+                    modulusLength: 2048,
+                    publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+                    hash: "SHA-256",
+                },
+                true,
+                ["encrypt", "decrypt"]
+            )
+
+            setPrivateKey(keyPair.privateKey)
 
             const encoder = new TextEncoder()
             const data = encoder.encode(new Uint8Array(decryptedData))
@@ -140,13 +152,12 @@ export default function Home() {
                     name: "RSA-OAEP",
                 },
                 privateKey,
-                result 
+                data
             )
             console.log(`decryptedData: ${decryptedData}`)
 
             const decoder = new TextDecoder()
             setDecryptedMessage(decoder.decode(new Uint8Array(decrypted)))
-
 
             setStatus("Data retrieved")
         } catch (error) {
@@ -156,31 +167,29 @@ export default function Home() {
     }
 
     return (
-        <div>
-            <h1>RSA Key Pair Generation Demo</h1>
-            <div>
-                <button onClick={generateKeyPair}>Generate Key Pair</button>
+        <div className="max-w-md mx-auto">
+            {/* <h1 className="py-5 text-3xl font-bold dark:text-yellow">RSA PRIVATE KEY GENERATE</h1> */}
+            {/* <div>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={generateKeyPair}>Generate Key Pair</button>
             </div>
             <div>
                 <p>Private Key: {privateKey ? privateKey.type : "Not generated"}</p>
                 <p>Public Key: {publicKey ? publicKey.type : "Not generated"}</p>
-            </div>
-            <div>
-                <p>
-                    Encrypted Message:{" "}
-                    {encryptedMessage ? encryptedMessage.join(", ") : "Not encrypted"}
-                </p>
-            </div>
-            <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+            </div> */}
+            <div class="max-w-md mx-auto">
                 <h2 class="py-5 text-4xl font-bold dark:text-yellow">Displaying Data</h2>
-                <form onSubmit={handleSubmit}>
+                <form
+                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                    onSubmit={handleSubmit}
+                >
                     <div class="mb-4">
                         <label class="block text-gray-700 font-bold mb-2" for="inline-full-name">
                             Data provider address:
                             <input
-                                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="inline-full-name"
                                 type="text"
+                                placeholder="Enter Data Provider Address"
                                 value={dataProvider}
                                 onChange={(event) => setDataProvider(event.target.value)}
                             />
@@ -192,20 +201,26 @@ export default function Home() {
                             KYC field:
                         </label>
                         <input
-                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="inline-full-name"
                             type="text"
+                            placeholder="Enter Kyc Field"
                             value={kycField}
                             onChange={(event) => setKycField(event.target.value)}
                         />
                         <br />
                     </div>
-                    <button type="submit">Get Data</button>
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit"
+                    >
+                        Get Data
+                    </button>
                 </form>
                 {status && <p class="text-red-500">{status}</p>}
                 {data && (
                     <p>
-                        Data: {data} {decryptedMessage}
+                        Data: {data} 
                     </p>
                 )}
             </div>

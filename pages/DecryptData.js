@@ -32,17 +32,20 @@ export default function DecryptData() {
     }
 
     return (
-        <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+        <div className="max-w-md mx-auto">
             <h2 className="py-5 text-4xl font-bold dark:text-yellow">Decrypting data</h2>
+            <div  className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
                 <label className="block text-gray-700 font-bold mb-2" htmlFor="data-provider">
                     DataProvider address:
                 </label>
                 <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        
                     id="data-provider"
                     type="text"
                     value={dataProvider}
+                    placeholder="Enter Data Provider Address"
                     onChange={(e) => setDataProvider(e.target.value)}
                 />
             </div>
@@ -51,9 +54,10 @@ export default function DecryptData() {
                     Data Field:
                 </label>
                 <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="data-field"
                     type="text"
+                    placeholder="Enter Kyc Field"
                     value={data}
                     onChange={(e) => setData(e.target.value)}
                 />
@@ -63,7 +67,7 @@ export default function DecryptData() {
                     Encryption key:
                 </label>
                 <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="inline-full-name"
                     type="password"
                     value={encryptionKey}
@@ -76,6 +80,7 @@ export default function DecryptData() {
             >
                 Decrypt Data
             </button>
+            </div>
             <div className="my-5">
                 {decryptedData && <p class="text-xl font-bold">Decrypted Data: {decryptedData}</p>}
                 {error && <p className="text-red-500 font-bold">{error}</p>}

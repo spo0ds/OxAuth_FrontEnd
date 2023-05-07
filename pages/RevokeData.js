@@ -41,25 +41,27 @@ export default function RevokeGrantToRequester() {
     }
 
     return (
-        <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-            <h2 class="py-5 text-4xl font-bold dark:text-yellow">Revoking Grant</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="max-w-md mx-auto"> 
+            <h2 className="py-5 text-4xl font-bold dark:text-yellow">Revoking Grant</h2>
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
                 <label class="block text-gray-700 font-bold mb-2" for="dataRequester">
                     Data requester:
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
                         id="dataRequester"
                         type="text"
                         value={dataRequester}
+                        placeholder="Enter dataRequester Address"
                         onChange={handleDataRequesterChange}
                     />
                 </label>
                 <label class="block text-gray-700 font-bold mb-2" for="kycField">
                     KYC field:
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="kycField"
                         type="text"
+                        placeholder="Enter the KycField"
                         value={kycField}
                         onChange={handleKycFieldChange}
                     />

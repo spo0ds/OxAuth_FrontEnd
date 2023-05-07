@@ -133,65 +133,67 @@ export default function StoreKyc() {
             setStatus(`Transaction confirmed: ${receipt.transactionHash}`)
         } catch (error) {
             console.error(error)
-            setStatus("Error submitting data")
+            setStatus("Error submitting data wrong field of data or wrong address")
         }
     }
 
     return (
-        <div>
-            <h1>RSA Key Pair Generation Demo</h1>
-            <div>
-                <button onClick={generateKeyPair}>Generate Key Pair</button>
+        <div className="max-w-md mx-auto">
+            <h1 className="py-5 text-4xl font-bold dark:text-yellow">RSA Encryption </h1>
+            <div className="mb-4">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generateKeyPair}>Generate Key Pair</button>
             </div>
             <div>
                 {/* <p>Private Key: {privateKey ? privateKey.type : "Not generated"}</p> */}
                 <p>Public Key: {publicKey ? publicKey.type : "Not generated"}</p>
             </div>
-            <div>
+            {/* <div>
                 <p>
                     Encrypted Message:{" "}
                     {encryptedMessage ? encryptedMessage.join(", ") : "Not encrypted"}
                 </p>
-            </div>
+            </div> */}
 
-            <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-                <h2 className="py-5 text-4xl font-bold dark:text-yellow">Storing KYC</h2>
-                <div className="mb-4">
-                    <label
-                        className="block text-gray-700 font-bold mb-2"
-                        htmlFor="inline-full-name"
-                    >
-                        DataProvider address:
+                <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                 <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="dataProvider">
+                        Data provider address:
                     </label>
                     <input
-                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-full-name"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="dataProvider"
                         type="text"
+                        placeholder="Enter data provider address"
                         value={dataProvider}
-                        onChange={(e) => setDataProvider(e.target.value)}
+                        onChange={(event) => setDataProvider(event.target.value)}
                     />
                 </div>
-                <form onSubmit={handleSubmit}>
+                <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2" htmlFor="dataRequester">
-                        Data requester:
-                        <input
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="dataRequester"
-                            type="text"
-                            value={dataRequester}
-                            onChange={(e) => setDataRequester(e.target.value)}
-                        />
+                        Data requester address:
                     </label>
-                    <label className="block text-gray-700 font-bold mb-2" htmlFor="kycField">
-                        KYC field:
-                        <input
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="kycField"
-                            type="text"
-                            value={kycField}
-                            onChange={(e) => setKycField(e.target.value)}
-                        />
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="dataRequester"
+                        type="text"
+                        placeholder="Enter data requester address"
+                        value={dataRequester}
+                        onChange={(event) => setDataRequester(event.target.value)}
+                    />
+                </div>
+                <div className="mb-6">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="data">
+                        Data:
                     </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="kycField"
+                        type="text"
+                        placeholder="Enter data"
+                        value={kycField}
+                        onChange={(event) => setKycField(event.target.value)}
+                    />
+                </div>
                     <div className="mb-4">
                         <label
                             className="block text-gray-700 font-bold mb-2"
@@ -200,7 +202,7 @@ export default function StoreKyc() {
                             Encryption key:
                         </label>
                         <input
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="inline-full-name"
                             type="password"
                             value={encryptionKey}
@@ -208,7 +210,7 @@ export default function StoreKyc() {
                         />
                     </div>
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
                         Submit
@@ -218,6 +220,5 @@ export default function StoreKyc() {
                 <p>{status1}</p>
                 <p>{status}</p>
             </div>
-        </div>
     )
 }
